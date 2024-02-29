@@ -17,7 +17,7 @@ contract PasswordManager is Reencrypt {
         string description;
         uint256 vault;
         // Assuming 'password' is a simplified representation
-        uint32[] password;
+        euint32[] password;
     }
 
     // List of vault IDs
@@ -33,7 +33,7 @@ contract PasswordManager is Reencrypt {
     mapping(uint256 => Item) private items;
 
     // Unique identifier for items
-    uint256 private itemIdCounter = 0;
+    uint256 private itemIdCounter = 1;
 
     modifier onlyAdmin() {
         require(msg.sender == admin, "Caller is not the admin");
@@ -41,6 +41,7 @@ contract PasswordManager is Reencrypt {
     }
 
     modifier itemExists(uint256 _itemId) {
+        // TODO: change from 0 to null and change itemIdCounter
         require(items[_itemId].id != 0, "Item does not exist");
         _;
     }
@@ -63,7 +64,7 @@ contract PasswordManager is Reencrypt {
         string memory _title,
         string memory _description,
         uint256 _vaultId,
-        uint32[] memory _password
+        bytes[] calldata _password
     ) public onlyAdmin returns (uint256) {
         require(bytes(_title).length > 0, "Title cannot be empty");
         require(bytes(_title).length <= TITLE_LENGTH_LIMIT, "Title cannot exceed 15 characters");
@@ -74,8 +75,15 @@ contract PasswordManager is Reencrypt {
             // Assuming 0 is not a valid vault ID and is used to indicate no vault
             require(vaultExists(_vaultId), "Vault ID is not valid");
         }
+
+        euint32[] memory temp_passwd;
         if (_password.length == 0) {
-            _password = generateNewPassword();
+            temp_passwd = generateNewPassword();
+        } else {
+            temp_passwd = new euint32[](_password.length);
+            for (uint8 i = 0; i < _password.length; i++) {
+                temp_passwd[i] = TFHE.asEuint32(_password[i]);
+            }
         }
 
         // Create the item
@@ -84,7 +92,7 @@ contract PasswordManager is Reencrypt {
             title: _title,
             description: _description,
             vault: _vaultId, // Ensure your Item struct has a vault_id attribute
-            password: _password
+            password: temp_passwd
         });
 
         items[itemIdCounter] = newItem;
@@ -147,9 +155,16 @@ contract PasswordManager is Reencrypt {
         uint256 _itemId,
         bytes32 publicKey,
         bytes calldata signature
-    ) public view onlyAdmin itemExists(_itemId) onlySignedPublicKey(publicKey, signature) returns (bytes memory) {
-        // TODO: return a re-encryption of each value in the password array
-        return "test"; //TFHE.reencrypt(items[_itemId].password[0], publicKey);
+    ) public view onlyAdmin itemExists(_itemId) onlySignedPublicKey(publicKey, signature) returns (bytes[] memory) {
+        Item storage item = items[_itemId];
+        bytes[] memory reencryptedPassword = new bytes[](item.password.length);
+
+        for (uint i = 0; i < item.password.length; i++) {
+            // Re-encrypt each part of the password and store it in the array
+            reencryptedPassword[i] = TFHE.reencrypt(item.password[i], publicKey);
+        }
+
+        return reencryptedPassword;
     }
 
     function deleteItem(uint256 _itemId) public onlyAdmin itemExists(_itemId) {
@@ -177,7 +192,7 @@ contract PasswordManager is Reencrypt {
         string memory _title,
         string memory _description,
         uint256 _vaultId,
-        uint32[] memory _newPassword
+        bytes[] calldata _newPassword
     ) public onlyAdmin itemExists(_itemId) {
         Item storage item = items[_itemId];
 
@@ -193,7 +208,12 @@ contract PasswordManager is Reencrypt {
 
         // Check and update the password if not empty
         if (_newPassword.length > 0) {
-            item.password = _newPassword;
+            euint32[] memory temp_passwd;
+            temp_passwd = new euint32[](_newPassword.length);
+            for (uint8 i = 0; i < _newPassword.length; i++) {
+                temp_passwd[i] = TFHE.asEuint32(_newPassword[i]);
+            }
+            item.password = temp_passwd;
         }
 
         // Check and update the vault, ensuring to remove the item from the old vault if necessary
@@ -219,10 +239,10 @@ contract PasswordManager is Reencrypt {
         }
     }
 
-    function generateNewPassword() public view onlyAdmin returns (uint32[] memory) {
-        uint32[] memory newPassword = new uint32[](PASSWORD_LENGTH);
+    function generateNewPassword() public view onlyAdmin returns (euint32[] memory) {
+        euint32[] memory newPassword = new euint32[](PASSWORD_LENGTH);
         for (uint i = 0; i < PASSWORD_LENGTH; i++) {
-            newPassword[i] = uint32(uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % 4294967295);
+            newPassword[i] = TFHE.randEuint32();
         }
         return newPassword;
     }
