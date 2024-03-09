@@ -51,7 +51,8 @@ contract PasswordManager is Reencrypt {
         createVault("All");
     }
 
-    function createVault(string memory _name) public onlyAdmin returns (uint256) {
+    // Add onlyAdmin again
+    function createVault(string memory _name) public returns (uint256) {
         require(bytes(_name).length > 0, "Vault name cannot be empty");
         // Assuming vaultIdCounter is a contract-wide unique identifier for vaults
         uint256 newVaultId = vaultIds.length;

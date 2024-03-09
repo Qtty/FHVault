@@ -80,7 +80,7 @@
     "coverage:mock": "HARDHAT_NETWORK=hardhat npx hardhat coverage-mock --network hardhat",
     "task:getEthereumAddress": "hardhat task:getEthereumAddress",
     "task:mint": "hardhat task:mint",
-    "task:deployERC20": "hardhat task:deployERC20",
+    "task:deployPM": "hardhat task:deployPasswordManager",
     "task:accounts": "hardhat task:accounts",
     "fhevm:start": "docker run -i -p 8545:8545 -p 8546:8546 --rm --name fhevm ghcr.io/zama-ai/ethermint-dev-node:v0.2.4",
     "fhevm:stop": "docker rm -f fhevm",
@@ -90,7 +90,8 @@
     "fhevm:faucet:bob": "docker exec -i fhevm faucet $(npx hardhat task:getEthereumAddressBob)",
     "fhevm:faucet:carol": "docker exec -i fhevm faucet $(npx hardhat task:getEthereumAddressCarol)",
     "fhevm:faucet:dave": "docker exec -i fhevm faucet $(npx hardhat task:getEthereumAddressDave)",
-    "fhevm:faucet:eve": "docker exec -i fhevm faucet $(npx hardhat task:getEthereumAddressEve)"
+    "fhevm:faucet:eve": "docker exec -i fhevm faucet $(npx hardhat task:getEthereumAddressEve)",
+    "fhevm:faucet:lyes": "docker exec -i fhevm faucet 0x6cd71702c094b72Ff4411819eD5ece90e71f2C40"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.1"

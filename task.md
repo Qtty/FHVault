@@ -40,6 +40,7 @@ contract that acts as a gateway for users to create and get the contract address
 ### Future Goals
 
 1. Each time a user connects for the first time, a new contract is created only for him
+2. add username and domain, the extension will list the items of that domain when visiting it
 
 ## Technical Structure
 

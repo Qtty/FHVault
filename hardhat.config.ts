@@ -11,7 +11,7 @@ import { resolve } from "path";
 import * as path from "path";
 
 import "./tasks/accounts";
-import "./tasks/deployERC20";
+import "./tasks/deployPasswordManager";
 import "./tasks/getEthereumAddress";
 import "./tasks/mint";
 
