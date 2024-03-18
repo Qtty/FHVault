@@ -12,6 +12,7 @@ import * as path from "path";
 
 import "./tasks/accounts";
 import "./tasks/deployPasswordManager";
+import "./tasks/deployPasswordManagerFactory";
 import "./tasks/getEthereumAddress";
 import "./tasks/mint";
 
