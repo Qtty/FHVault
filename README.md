@@ -1,278 +1,152 @@
-# Hardhat Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# FHVault
 
-[gitpod]: https://gitpod.io/#https://github.com/zama-ai/fhevm-hardhat-template
-[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/zama-ai/fhevm-hardhat-template/actions
-[gha-badge]: https://github.com/zama-ai/fhevm-hardhat-template/actions/workflows/ci.yml/badge.svg
-[hardhat]: https://hardhat.org/
-[hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
-[license]: https://opensource.org/licenses/MIT
-[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+<p align="center">
+  <img src="./md_wallpaper.png" alt="Logo of FHVault"/>
+</p>
 
-A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
+## Introduction to the Project
 
-- [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
-- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
-- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
-- [Solhint](https://github.com/protofire/solhint): code linter
-- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
-- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+FHVault is an innovative blockchain-based password manager designed for Ethereum, leveraging the security and
+transparency of smart contracts to manage sensitive information. Our project aims to address the critical need for
+privacy and security in the digital age, allowing users to securely store and manage their passwords and other sensitive
+data on the Ethereum blockchain. By combining advanced encryption technologies with the immutable nature of blockchain,
+FHVault offers a secure and private solution for digital asset management.
 
-## Getting Started
+## Challenges in Implementing a Password Manager On-Chain
 
-Click the [`Use this template`](https://github.com/zama-ai/fhevm-hardhat-template/generate) button at the top of the
-page to create a new repository with this repo as the initial state.
+The primary challenge in developing an on-chain password manager like FHVault lies in ensuring the utmost security and
+privacy for users' passwords and sensitive information. Traditional password managers rely on centralized databases,
+posing risks of data breaches and unauthorized access. Moreover, directly storing sensitive data on the blockchain
+raises concerns about privacy and data exposure, given the public nature of blockchain transactions. The key challenges
+include:
 
-## Features
+- **Keeping the Password Safe**: Ensuring that passwords and sensitive data are securely encrypted and inaccessible to
+  unauthorized parties.
+- **Maintaining Privacy**: Protecting users' privacy by preventing the exposure of sensitive information on a public
+  ledger.
 
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentations.
+## Leveraging Zama fhEVM to Solve These Challenges
 
-For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the
-[Hardhat Docs](https://hardhat.org/docs). You might be in particular interested in reading the
-[Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
+To overcome these challenges, FHVault utilizes Zama's Fully Homomorphic Encryption Virtual Machine (fhEVM), Zama's fhEVM
+represents a breakthrough for blockchain applications like FHVault, addressing the critical need for privacy and
+security in handling sensitive data. fhEVM enables computations on encrypted data without decryption, ensuring data
+privacy and security throughout the process. This innovative approach allows FHVault to offer unparalleled protection
+for users' passwords and sensitive information on the Ethereum blockchain. Key benefits include:
 
-### Sensible Defaults
+- **Secure Data Operations**: Imagine a user updating their password within FHVault. Traditionally, this operation might
+  require decrypting the stored password, updating it, and re-encrypting it, which could expose sensitive information at
+  certain points. With fhEVM, the update operation can be performed on the encrypted password directly. The process
+  ensures that the password, in its encrypted form, is never made vulnerable, even during updates, effectively closing a
+  critical window for potential cyber attacks.
 
-This template comes with sensible default configurations in the following files:
+- **Scenario of Privacy Preservation**: Consider a situation where a user wants to verify their password against the
+  stored one in FHVault to log into an application. Using fhEVM, this verification process occurs without ever
+  decrypting the password. The comparison between the user's input and the stored password is conducted entirely on
+  encrypted data, ensuring that the actual password contents remain hidden throughout, thereby preserving the user's
+  privacy against both external threats and potential internal vulnerabilities.
 
-```text
-├── .editorconfig
-├── .eslintignore
-├── .eslintrc.yml
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solcover.js
-├── .solhint.json
-└── hardhat.config.ts
-```
+- **Enhanced Security**: In the context of blockchain, where transaction details are transparent, a user's interaction
+  with FHVault (e.g., retrieving a password for a site) could potentially reveal usage patterns or sensitive
+  information. fhEVM counters this by enabling these interactions to happen in an encrypted manner. For instance, even
+  if a hacker were monitoring transactions, they would only see encrypted data being processed, with no way to discern
+  the nature of the user's action or the information being retrieved, significantly enhancing security against both
+  direct and analytical attacks on user data.
 
-### VSCode Integration
+## Key Features of FHVault
 
-This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Nomic
-Foundation's [Solidity extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity).
+FHVault stands out as a revolutionary solution for secure and private data management on the Ethereum blockchain,
+powered by Zama's Fully Homomorphic Encryption Virtual Machine (FHEVM). Here are its key features:
 
-### GitHub Actions
+- **End-to-End Encryption**: Utilizes advanced encryption to ensure that data is always secure, from the moment it's
+  stored to every interaction it undergoes.
 
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
+- **Privacy-Preserving Operations**: Offers the capability to perform operations on encrypted data, maintaining the
+  confidentiality of user information even during computational processes.
 
-Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
+- **Blockchain-Based Security**: Leverages the immutable and transparent nature of blockchain technology, enhancing the
+  integrity and trustworthiness of data storage and management.
 
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
+- **User-Centric Control**: Empowers users with full control over their data, enabling secure access and management of
+  their passwords and sensitive information without relying on third-party services.
 
-## Usage
+- **Interoperability**: FHVault's architecture is built to seamlessly integrate with existing Ethereum applications and
+  services, fostering a more secure ecosystem across the decentralized web.
 
-### Pre Requisites
+These features position FHVault not just as a password manager, but as a comprehensive platform for users and
+organizations looking for a secure, private, and efficient way to manage sensitive data on the Ethereum blockchain.
 
-Install [docker](https://docs.docker.com/engine/install/)
+## Quick Start and Installation
 
-Install [pnpm](https://pnpm.io/installation)
+To begin using FHVault, follow these installation steps:
 
-Before being able to run any command, you need to create a `.env` file and set a BIP-39 compatible mnemonic as an
-environment variable. You can follow the example in `.env.example`. If you don't already have a mnemonic, you can use
-this [website](https://iancoleman.io/bip39/) to generate one.
+### Prerequisites
 
-Then, proceed with installing dependencies:
+- Ensure you have Node.js installed on your system.
+- An Ethereum wallet with some Ether for deploying contracts, if you plan to deploy to a live network.
 
-```sh
-pnpm install
-```
+## Installation
 
-### Start fhEVM
+### Steps
 
-Start a local fhEVM docker container that inlcudes everything needed to deploy FHE encrypted smart contracts
+1. **Clone the Repository**: Start by cloning the repository to your local machine.
+   ```bash
+   git clone https://github.com/Qtty/FHVault.git
+   ```
+2. **Install Dependencies**: Navigate to the cloned directory and install the required dependencies.
+   ```bash
+   pnpm install
+   ```
 
-```sh
-# In one terminal, keep it opened
-# The node logs are printed
-pnpm fhevm:start
-```
+For instructions on setting up the frontend, which includes details on how to interact with the game through a user
+interface, please refer to the following link: [Frontend Documentation](https://github.com/Qtty/FHVault-frontend.git)
 
-To stop:
+## Tests
 
-```sh
-pnpm fhevm:stop
-```
+To ensure the integrity of our game logic, comprehensive tests have been written. Follow these steps to run the tests:
 
-### Compile
+1. Start a local Fhevm docker container:
+   ```bash
+   pnpm fhevm:start
+   ```
+2. Get some coins for the accounts:
+   ```bash
+   pnpm fhevm:faucet
+   ```
+3. Run the test suite:
+   ```bash
+   pnpm test
+   ```
 
-Compile the smart contracts with Hardhat:
-
-```sh
-pnpm compile
-```
-
-### TypeChain
-
-Compile the smart contracts and generate TypeChain bindings:
-
-```sh
-pnpm typechain
-```
-
-### List accounts
-
-From the mnemonic in .env file, list all the derived Ethereum adresses:
-
-```sh
-pnpm task:accounts
-```
-
-### Get some native coins
-
-In order to interact with the blockchain, one need some coins. This command will give coins to the first 5 addresses
-derived from the mnemonic in .env file.
-
-```sh
-pnpm fhevm:faucet
-```
-
-<br />
-<details>
-  <summary>To get the first derived address from mnemonic</summary>
-<br />
-
-```sh
-pnpm task:getEthereumAddress
-```
-
-</details>
-<br />
-
-### Deploy
-
-Deploy the ERC20 to local network:
-
-```sh
-pnpm deploy:contracts
-```
-
-Notes: <br />
-
-<details>
-<summary>Error: cannot get the transaction for EncryptedERC20's previous deployment</summary>
-
-One can delete the local folder in deployments:
+If you want to run the test on Zama devnet, run: npx hardhat test --network zama If you want to see the gas consumption,
+add `REPORT_GAS=true`:
 
 ```bash
-rm -r deployments/local/
-```
-
-</details>
-
-<details>
-<summary>Info: by default, the local network is used</summary>
-
-One can change the network, check [hardhat config file](./hardhat.config.ts).
-
-</details>
-<br />
-
-#### Mint
-
-Run the `mint` task on the local network:
-
-```sh
-pnpm task:mint --network local --mint 1000
-```
-
-### Test
-
-Run the tests with Hardhat:
-
-```sh
-pnpm test
-```
-
-### Lint Solidity
-
-Lint the Solidity code:
-
-```sh
-pnpm lint:sol
-```
-
-### Lint TypeScript
-
-Lint the TypeScript code:
-
-```sh
-pnpm lint:ts
-```
-
-### Report Gas
-
-See the gas usage per unit test and average gas per method call:
-
-```sh
 REPORT_GAS=true pnpm test
 ```
 
-### Clean
+## Deploying the Smart Contract
 
-Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
+### Deployment Instructions
 
-```sh
-pnpm clean
-```
+Deploying the smart contract is a crucial step in setting up the backend for FHVault. We provide a streamlined process
+to deploy the contract to both a local test network and the Zama network.
 
-### Tasks
+#### Local Network Deployment
 
-#### Deploy EncryptedERC20
+1. **Deploy to Local Network**:
+   - Use the command `pnpm deploy:PasswordManagerFactory` in your terminal.
+   - This will deploy the smart contract to your local Ethereum network, suitable for development and testing purposes.
 
-Deploy a new instance of the EncryptedERC20 contract via a task:
+#### Deployment to Zama Network
 
-```sh
-pnpm task:deployERC20
-```
+1. **Deploy to Zama Network**:
+   - To deploy the smart contract to the Zama network, append `--network zama` to the deployment command.
+   - Run `pnpm deploy:PasswordManagerFactory --network zama` in your terminal.
+   - This targets the Zama network for deployment, allowing the smart contract to interact with the Zama environment.
 
-### Mocked mode
+#### Note:
 
-The mocked mode allows faster testing and the ability to analyze coverage of the tests. In this mocked version,
-encrypted types are not really encrypted, and the tests are run on the original version of the EVM, on a local hardhat
-network instance. To run the tests in mocked mode, you can use directly the following command:
+- Ensure you have the necessary configurations and network details set up for deploying to the Zama network.
 
-```sh
-pnpm test:mock
-```
-
-To analyze the coverage of the tests (in mocked mode necessarily, as this cannot be done on the real fhEVM node), you
-can use this command :
-
-```sh
-pnpm coverage:mock
-```
-
-Then open the file `coverage/index.html`. You can see there which line or branch for each contract which has been
-covered or missed by your test suite. This allows increased security by pointing out missing branches not covered yet by
-the current tests.
-
-Notice that, due to intrinsic limitations of the original EVM, the mocked version differ in few corner cases from the
-real fhEVM, the most important change is the `TFHE.isInitialized` method which will always return `true` in the mocked
-version. Another big difference in mocked mode, compared to the real fhEVM implementation, is that there is no
-ciphertext verification neither checking that a ciphertext has been honestly obtained (see section 4 of the
-[whitepaper](https://github.com/zama-ai/fhevm/blob/main/fhevm-whitepaper.pdf)). This means that before deploying to
-production, developers still need to run the tests with the original fhEVM node, as a final check in non-mocked mode,
-with `pnpm test`.
-
-### Syntax Highlighting
-
-If you use VSCode, you can get Solidity syntax highlighting with the
-[hardhat-solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity) extension.
-
-## Using GitPod
-
-[GitPod](https://www.gitpod.io/) is an open-source developer platform for remote development.
-
-To view the coverage report generated by `pnpm coverage`, just click `Go Live` from the status bar to turn the server
-on/off.
-
-## Local development with Docker
-
-Please check the [fhevm-go](https://github.com/zama-ai/fhevm-go) repository to be able to build fhEVM from sources.
-
-## License
-
-This project is licensed under MIT.
+_Following these steps will deploy your smart contract to the desired network, establishing the foundation for FHVault'
+backend functionalities._
